@@ -60,6 +60,9 @@ namespace QuickStart
                 movement.x = Input.GetAxis("Horizontal");
                 movement.y = Input.GetAxis("Vertical");
                 CmdSetMove(movement);
+                if (transform.childCount == 0) {
+                    GameObject.Find("Main Camera").transform.parent = transform;
+                }
             }
         }
     }
