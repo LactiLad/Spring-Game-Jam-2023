@@ -25,26 +25,32 @@ public class SFXHandler : MonoBehaviour
     }
 
     public void amberSpeech() {
-        PlayOneShot(AmberSpeech);
+        Audio.clip = AmberSpeech;
+        Audio.Play();
     }
 
     public void noirSpeech() {
-        PlayOneShot(NoirSpeech);
+        Audio.clip = NoirSpeech;
+        Audio.Play();
     }
 
     public void menuClick() {
-        PlayOneShot(MenuClick);
+        Audio.clip = MenuClick;
+        Audio.Play();
     }
 
     public void pickUpNeedle() {
-        PlayOneShot(PickUpNeedle);
+        Audio.clip = PickUpNeedle;
+        Audio.Play();
     }
 
     public void placeNeedle() {
-        PlayOneShot(PlaceNeedle);
+        Audio.clip = PlaceNeedle;
+        Audio.Play();
     }
 
     public void threadNeedle() {
-        PlayOneShot(ThreadNeedle);
+        Audio.clip = ThreadNeedle;
+        Audio.Play();
     }
 }
