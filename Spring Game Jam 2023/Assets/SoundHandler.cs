@@ -17,7 +17,9 @@ public class SoundHandler : MonoBehaviour
         if (instance == null) instance = this;
         track1 = gameObject.AddComponent<AudioSource>();
         track2 = gameObject.AddComponent<AudioSource>();
-        track1Playing = true; 
+        track1Playing = true;
+        track1.loop = true;
+        track2.loop = true;
 
         switchTrack(title);
     }
