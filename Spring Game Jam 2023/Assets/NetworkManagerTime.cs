@@ -15,5 +15,12 @@ public class NetworkManagerTime : NetworkManager
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnServerDisconnect(conn);
+        Application.Quit();
+    }
+
+    public override void OnClientDisconnect()
+    {
+        Application.Quit();
+        base.OnClientDisconnect();
     }
 }

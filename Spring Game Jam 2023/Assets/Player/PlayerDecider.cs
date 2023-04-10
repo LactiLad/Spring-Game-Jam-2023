@@ -6,8 +6,10 @@ namespace QuickStart {
     public class PlayerDecider : MonoBehaviour
     {
         static float lerpSpeed = 20f;
+        bool playing = false;
         Vector2 direction;
         public bool day;
+        public bool item = false;
         bool decided = false;
         public Animator animator;
         // Start is called before the first frame update
@@ -20,17 +22,23 @@ namespace QuickStart {
         void Update()
         {
             //find if day
-            int decisionDay = GameObject.Find("DecisionHolder").GetComponent<DecisionHolder>().day;
-            if (decisionDay != 0) {
-                if (decisionDay == 1)
-                    day = true;
-                else
-                    day = false;
-            }
+            day = GameObject.Find("Network Manager").GetComponent<ConnectionManager>().day;
             direction = Vector2.Lerp(direction, GetComponent<PlayerScript>().avgMove, Time.deltaTime * lerpSpeed);
             animator.SetBool("day", day);
+            animator.SetBool("item", item);
             animator.SetFloat("Horizontal", direction.x);
             animator.SetFloat("Vertical", direction.y);
+
+            if (day && !playing) {
+                playing = true;
+                GameObject.Find("MusicHandler").GetComponent<SoundHandler>().playDayTheme();
+            } else if (!day && !playing) {
+                playing = true;
+                GameObject.Find("MusicHandler").GetComponent<SoundHandler>().playNightTheme();
+            }
+            if (item && GameObject.Find("Tilemap_Gates")) {
+                GameObject.Destroy(GameObject.Find("Tilemap_Gates"));
+            }
         }
     }
 }
