@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Mirror.RemoteCalls;
 using System.Security.Cryptography;
 
 namespace QuickStart
@@ -10,6 +11,7 @@ namespace QuickStart
     {
         // Start is called before the first frame update
         public static float speed = 4f;
+        public Vector2 avgMove;
         public GameObject otherPlayer;
 
         [SyncVar(hook = nameof(PlayerMove))]
@@ -36,7 +38,7 @@ namespace QuickStart
         void Start() {
             if (!isLocalPlayer) return;
             GameObject.Find("Main Camera").transform.parent = transform;
-                    GameObject.Find("Main Camera").transform.localPosition = new Vector3(0,0,-10);
+            GameObject.Find("Main Camera").transform.localPosition = new Vector3(0,0,-10);
         }
         // Update is called once per frame
         void Update()
@@ -52,12 +54,13 @@ namespace QuickStart
 
             if (otherPlayer.name != "Main Camera") {
                 Vector2 otherMove = otherPlayer.GetComponent<PlayerScript>().movement;
-                Vector2 avgMove = new Vector2();
+                avgMove = new Vector2();
                 avgMove = (movement+otherMove).normalized;
+                if (movement.magnitude > 1) avgMove *= 2;
                 transform.Translate(avgMove * Time.deltaTime * speed);
-                if (this.gameObject.name == "Player [connId=0]") {
-                    transform.Translate(avgMove * -0.5f * Time.deltaTime * speed);
-                    otherPlayer.GetComponent<PlayerScript>().moveRPC(movement);
+                if (this.gameObject.GetComponent<NetworkIdentity>().sceneId == 0) {
+                    //transform.Translate(avgMove * -0.5f * Time.deltaTime * speed);
+                    otherPlayer.GetComponent<PlayerScript>().moveRPC(movement*10);
                 }
             }
 
