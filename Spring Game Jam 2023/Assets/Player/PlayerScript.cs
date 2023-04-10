@@ -33,6 +33,11 @@ namespace QuickStart
         {
             otherPlayer = GameObject.Find("Main Camera");
         }
+        void Start() {
+            if (!isLocalPlayer) return;
+            GameObject.Find("Main Camera").transform.parent = transform;
+                    GameObject.Find("Main Camera").transform.localPosition = new Vector3(0,0,-10);
+        }
         // Update is called once per frame
         void Update()
         {
@@ -62,6 +67,7 @@ namespace QuickStart
                 CmdSetMove(movement);
                 if (transform.childCount == 0) {
                     GameObject.Find("Main Camera").transform.parent = transform;
+                    GameObject.Find("Main Camera").transform.localPosition = new Vector3(0,0,-10);
                 }
             }
         }
